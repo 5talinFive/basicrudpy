@@ -1,62 +1,60 @@
 import sys 
 
-clients = 'pablo, ricardo, stalin, '
+clients = ['pablo', 'ricardo']
 
 def create_client(client_name):
     global clients
     
     if client_name not in clients:
-        clients += client_name
-        _add_comma()
+        clients.append(client_name)
     else:
         print('Client already is in the Clients List')
     
     
 def list_clients():
-    global clients
-    print(clients)
+    for idx, client in enumerate(clients):
+        print('{}: {}'.format(idx, client))
     
-def update_client(client_name, update_client_name):
+    
+def update_client(client_name, updated_name):
     global clients
     
     if client_name in clients:
-        clients = clients.replace(client_name + ',', update_client_name + ',')
+        index = clients.index(client_name)
+        clients[index] = updated_name
     else:
         print('Client is not in Client List')
+        
         
 def delete_client(client_name):
     global clients
     if client_name in clients:
-        clients = clients.replace(client_name + ',', '')
+        clients.remove(client_name)
     else:
         print('Client is not in Client List')
     
         
 def search_client(client_name):
-        clients_list = clients.split(',')
-        for client in clients_list:
+        for client in clients:
             if client != client_name:
                 continue
             else:
                 return True
     
     
-def _add_comma():
-    global clients
-    clients += ','
-    
 def _print_welcome():
     print('WELCOME TO PLATZI VENTAS')
     print('*' * 25)
     print('What would you like to do today?:')
     print('[C]reate Client')
+    print('[L]ist Clients')
     print('[U]pdate Client')
     print('[D]elete Client')
     print('[S]earch Cleint')
     
     print()
-    print('***** C L I E N T S *****')
-    list_clients()
+    print('Escribe una letra de las opciones:')
+    # list_clients()
     
 def _get_client_name():
     client_name = None
@@ -83,6 +81,8 @@ if __name__ == '__main__':
     if command == 'C':
         client_name = _get_client_name()
         create_client(client_name)
+        list_clients()
+    elif command == 'L':
         list_clients()
     elif command == 'D':
         client_name = _get_client_name()
