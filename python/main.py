@@ -1,19 +1,39 @@
 import sys 
 
-clients = ['pablo', 'ricardo']
+clients = [
+    {
+        'name': 'pablo',
+        'company': 'google',
+        'email': 'pablo@gmail.com',
+        'position': 'software engineer',
+    },
+    {
+        'name': 'ricardo',
+        'company': 'OpenIA',
+        'email': 'rix@gmail.com',
+        'position': 'data engineer',
+    }
+]
 
-def create_client(client_name):
+def create_client(client):
     global clients
     
-    if client_name not in clients:
-        clients.append(client_name)
+    if client not in clients:
+        clients.append(client)
     else:
         print('Client already is in the Clients List')
     
     
 def list_clients():
     for idx, client in enumerate(clients):
-        print('{}: {}'.format(idx, client))
+        # print('{}: {}'.format(idx, client))
+        print(('{uid} | {name} | {company} | {email} | {position}'.format(
+            uid=idx,
+            name=client['name'],
+            company=client['company'],
+            email=client['email'],
+            position=client['position'],
+        )))
     
     
 def update_client(client_name, updated_name):
@@ -56,6 +76,14 @@ def _print_welcome():
     print('Escribe una letra de las opciones:')
     # list_clients()
     
+
+def _get_client_field(field_name):
+    field = None
+    while not field:
+        field = input('What is the client {}?'.format(field_name))
+        return field
+    
+    
 def _get_client_name():
     client_name = None
     
@@ -79,8 +107,14 @@ if __name__ == '__main__':
     command = command.upper()
     
     if command == 'C':
-        client_name = _get_client_name()
-        create_client(client_name)
+        client = {
+            'nombre': _get_client_field('name'),
+            'company': _get_client_field('company'),
+            'email': _get_client_field('email'),
+            'position': _get_client_field('position'),
+        }
+        # client_name = _get_client_name()
+        create_client(client)
         list_clients()
     elif command == 'L':
         list_clients()
@@ -100,7 +134,7 @@ if __name__ == '__main__':
             print('The client is in the client list')
         else:
             print('The client: {} is not in our client list'.format(client_name))
-    else:
+    else: 
         print('Invalid Command')
     
     
